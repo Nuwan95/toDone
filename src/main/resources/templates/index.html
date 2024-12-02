@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sidebars · Bootstrap v5.0</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /*Code to change color of active link*/
+        .navbar-nav > .active > a {
+            color: red;
+        }
+    </style>
+
+</head>
+<body>
+<main>
+
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-4">toDone</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item active">
+                <a data-bs-toggle="modal" data-bs-target="#postModal" aria-controls="postModal" class="nav-link text-white" aria-current="page">
+                    <span><i class="fas fa-plus-circle fa-lg" style="margin-right: 7px"></i></span>
+                    Add task
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link text-white nav-item-link active">
+                    <span><i class="fas fa-calendar-day fa-lg" style="margin-right: 7px"></i></span>
+                    Today
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link text-white nav-item-link">
+                    <span><i class="fas fa-calendar-alt fa-lg" style="margin-right: 7px"></i></span>
+                    Upcoming
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link text-white nav-item-link">
+                    <span><i class="fas fa-calendar-alt fa-lg" style="margin-right: 7px"></i></span>
+                    Overdue
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>mdo</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
+
+<!--    <div class="b-example-divider"></div>-->
+
+    <div class="mt-5 content">
+        <h2>Today</h2>
+        <div class="mt-5">
+            <div th:each="task : ${tasks}" style="width:80vh">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" aria-label="..."
+                               th:checked="${task.completed}"
+                               th:data-task-id="${task.id}"
+                               onclick="updateTaskStatus(this)">
+                        <strong th:text="${task.title}" style="margin-left:7px">Task Title</strong> <!-- Task Title -->
+                    </div>
+                    <div>
+                        <a href="#"><span><i class="fas fa-edit" style="margin-right: 7px; color: black;"></i></span></a>
+                        <form th:action="@{/delete/{id}(id=${task.id})}" method="post" style="display:inline;"
+                              onsubmit="return confirm('Are you sure you want to delete this task?');">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                <i type="submit" class="far fa-window-close" style="margin-right: 7px; color: black;"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <p th:text="${task.description}" style="margin-left:26px; font-size: 0.7rem;">Task Description</p> <!-- Task Description -->
+                <hr class="thin-line">
+            </div>
+            <div>
+                <a href="#" style="color: black; text-decoration: none;">
+                    <span><i class="fas fa-plus fa-lg" style="margin-right: 7px"></i></span>
+                    Add task
+                </a>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h5>Completed</h5>
+            <div class="mt-3" th:each="task : ${completedTasks}" style="width:80vh">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <input class="form-check-input" type="checkbox" value="" aria-label="..."
+                               th:checked="${task.completed}" checked disabled>
+                        <strong th:text="${task.title}" style="margin-left:7px">Task Title</strong> <!-- Task Title -->
+                    </div>
+                    <div>
+<!--                        <a href="#"><span><i class="fas fa-undo-alt" style="margin-right: 7px; color: black;"></i></span></a>-->
+                        <form th:action="@{/update-task-status/{id}(id=${task.id})}" method="post" style="display:inline;">
+                            <input type="hidden" name="completed" value="false">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                <i class="fas fa-undo-alt" style="margin-right: 7px; color: black;"></i>
+                            </button>
+                        </form>
+                        <form th:action="@{/delete/{id}(id=${task.id})}" method="post" style="display:inline;"
+                              onsubmit="return confirm('Are you sure you want to delete this task?');">
+                            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                <i type="submit" class="far fa-window-close" style="margin-right: 7px; color: black;"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <p th:text="${task.description}" style="margin-left:26px; font-size: 0.7rem;">Task Description</p> <!-- Task Description -->
+                <hr class="thin-line">
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="script/sidebars.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initialize the datepicker
+        $('.datepicker').datepicker({
+            format: 'dd M', // Date format
+            autoclose: true, // Close on select
+            todayHighlight: true, // Highlight today's date
+            defaultViewDate: new Date() // Ensure today's date is selected
+        }).datepicker('setDate', new Date());
+         $('#form').submit(function () {
+                const selectedDate = $('.datepicker').datepicker('getDate');
+                const formattedDate = selectedDate.toISOString().split('T')[0]; // Format to 'yyyy-MM-dd'
+                $('#hidden-date').val(formattedDate);
+          });
+    });
+</script>
+<script>
+    // Select all nav links
+    const navLinks = document.querySelectorAll('.nav-item-link');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            // Remove active class from all links
+            navLinks.forEach(nav => nav.classList.remove('active'));
+
+            // Add active class to the clicked link
+            this.classList.add('active');
+        });
+    });
+</script>
+
+<div id="postModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  >
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="form-body">
+                <form id="form" th:action="@{/add-task}" th:object="${task}" method="post">
+                    <input type="text" autofocus id="title" th:field="*{title}" placeholder="Task title" class="large-input bold-text" required/>
+                    <input type="text" id="description" th:field="*{description}" placeholder="Description" class="small-input normal-text" />
+
+                    <div class="mt-3 position-relative">
+                        <i class="fas fa-calendar" style="border-radius: 5px"></i>
+                        <input type="hidden" th:field="*{taskDate}" id="hidden-date" name="date">
+                        <input type="text" id="task-date" class="task-date datepicker" placeholder="Date" readonly/>
+                    </div>
+
+                    <hr class="thin-line">
+
+                    <div class="d-flex justify-content-end" style="margin-top:2vh">
+                        <button class="btn btn-dark btn-rounded btn-sm" data-bs-dismiss="modal" aria-label="Close" type="button">Cancel</button>
+                        <button class="btn btn-dark btn-rounded btn-sm ms-2" type="submit">Add task</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

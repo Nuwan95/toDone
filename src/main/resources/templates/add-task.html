@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Task</title>
+</head>
+<body>
+<!--<h1>Add Task</h1>-->
+<!--<form th:action="@{/add-task}" th:object="${task}" method="post">-->
+<!--    <label for="description">Task Description:</label>-->
+<!--    <input type="text" id="description" th:field="*{description}" required>-->
+<!--    <button type="submit">Add Task</button>-->
+<!--</form>-->
+
+<div id="postModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  >
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <form th:action="@{/add-task}" th:object="${task}" method="post">
+                <label for="description">Task Description:</label>
+                <input type="text" id="description" th:field="*{description}" required>
+                <button type="submit">Add Task</button>
+            </form>
+
+            <div class="modal-footer d-flex justify-content-between">
+                <a href="/">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<a href="/">Back to list</a>-->
+</body>
+</html>

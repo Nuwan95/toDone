@@ -1,0 +1,106 @@
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+
+main {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100vh;
+  height: -webkit-fill-available;
+  max-height: 100vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.content {
+  padding-left:15%
+}
+
+.bi {
+  vertical-align: -.125em;
+  pointer-events: none;
+  fill: currentColor;
+}
+
+.dropdown-toggle { outline: 0; }
+
+.nav-flush .nav-link {
+  border-radius: 0;
+}
+
+.form-body {
+    padding:3vh
+}
+
+/* Remove outlines from input fields */
+input {
+    border: none; /* Remove borders */
+    box-shadow: none; /* Remove focus outline */
+    outline: none;
+}
+
+input:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+/* Custom styles for the first input (large and bold) */
+.large-input {
+    font-size: 1.5rem; /* Large font size */
+    font-weight: bold; /* Bold text */
+}
+
+/* Custom styles for the second input (small and normal) */
+.small-input {
+    font-size: 0.9rem; /* Smaller font size */
+    font-weight: normal; /* Normal text */
+}
+
+
+.nav-item a:hover,
+nav-pills .nav-item .nav-link.active {
+  background-color: rgb(160, 160, 160);
+}
+
+
+.task-date {
+    color: black; /* White text */
+    text-align: right; /* Center-align text */
+    font-size: 0.8rem;
+    cursor: pointer; /* Pointer cursor for better UX */
+    border-radius: 5px; /* Rounded edges */
+    border: 1px solid #6c757d;
+    width: 12vh;
+    padding-right:10px
+}
+.input-group {
+    border-radius: 5px; /* Rounded edges */
+}
+
+.fa-calendar {
+            position: absolute;
+            border-radius: 5px;
+            top: 50%;
+            left: 10px; /* Position inside the input */
+            transform: translateY(-50%);
+            color: #6c757d; /* Muted color */
+        }
+
+
+
+.task-date:hover {
+    background-color: rgb(160, 160, 160); /* Darker blue on hover */
+}
+
+.scrollarea {
+  overflow-y: auto;
+}
+
+.fw-semibold { font-weight: 600; }
+.lh-tight { line-height: 1.25; }
